@@ -1,0 +1,39 @@
+#!/bin/bash
+
+#clean up / setup
+
+export srcdir="src"
+export outdir="build"
+export tmp="tmp"
+
+mkdir -p $outdir
+mkdir -p $tmp
+
+rm -f $tmp/*
+rm -f $outdir/*
+
+touch "$outdir/minified.js"
+
+filearr=($srcdir/bitwisegames.namespace.ignore $srcdir/bitwisegames.animatedsprite.js $srcdir/bitwisegames.camera.js $srcdir/bitwisegames.circulartriggerregion.js $srcdir/bitwisegames.collisionlayer.js $srcdir/bitwisegames.conversationhandler.js $srcdir/bitwisegames.conversation.js $srcdir/bitwisegames.data.js $srcdir/bitwisegames.dialog.js $srcdir/bitwisegames.drawable.js $srcdir/bitwisegames.engine.js $srcdir/bitwisegames.frameanimation.js $srcdir/bitwisegames.gameloader.js $srcdir/bitwisegames.gametime.js $srcdir/bitwisegames.inputhelper.js $srcdir/bitwisegames.keyboard.js $srcdir/bitwisegames.layer.js $srcdir/bitwisegames.map.js $srcdir/bitwisegames.npc.js $srcdir/bitwisegames.script.js $srcdir/bitwisegames.tilelayer.js $srcdir/bitwisegames.triggers.js)
+
+for f in "${filearr[@]}" ;
+	do
+	filename=$(basename "$f")
+	filenamenoext="${filename%.*}"
+
+	echo "Building $tmp/$filenamenoext.min.js..."
+	java -jar consyntools.jar Obfuscator "$f" "$tmp/$filenamenoext.min.js" _ > /dev/null 2>&1 
+	cat "$tmp/$filenamenoext.min.js" >> "$outdir/minified.js" ; done	
+
+
+#java -jar consyntools.jar Obfuscator bitwisegames.namespace.ignore output/bitwisegames.namespace.min.js _
+
+#echo "Building minified.js..."
+
+# now cat all output files into one file called minified.js
+#cat output/bitwisegames.namespace.min.js > minified.js
+
+#for f in output/*.js ;
+#	do
+#	cat "$f" >> minified.js ; done
+
