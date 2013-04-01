@@ -3,7 +3,7 @@
 #clean up / setup
 
 export srcdir="src"
-export outdir="build"
+export outdir="."
 export tmp="tmp"
 
 mkdir -p $outdir

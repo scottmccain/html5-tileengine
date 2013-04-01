@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang='en'>
+
+	<head>
+      	<meta charset='UTF-8' />
+      	<title>Engine Test</title>
+      	<link rel='stylesheet' href='engine.css' media='all'>
+			<link href="http://fonts.googleapis.com/css?family=Unkempt" rel="stylesheet" "type='text/css'>
+			
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	</head>
+
+	<body>
+
+
+		<div id="canvas-holder" style="width:820px;">
+			<canvas id='canvas' width='820' height='400'></canvas>
+   		</div>
+
+		<script type="text/javascript">
+			// shim layer with setTimeout fallback
+			/*window.requestAnimFrame = (function(){
+				console.log('checking if we support requestAnimationFrame');
+				
+			  return  window.requestAnimationFrame       ||
+					  window.webkitRequestAnimationFrame ||
+					  window.mozRequestAnimationFrame    ||
+					  function( callback ){
+						console.log('using fallback for requestAnimationFrame');
+						window.setTimeout(callback, 1000 / 60);
+					  };
+			})();		*/
+		</script>
+		
+		<script src='sylvester.js'></script>
+		<script src='canvas-utils.js'></script>
+
+		<script src='bitwisegames.namespace.js'></script>
+
+		<script src='bitwisegames.animatedsprite.js'></script>
+		<script src='bitwisegames.circulartriggerregion.js'></script>
+		<script src='bitwisegames.camera.js'></script>
+		<script src='bitwisegames.collisionlayer.js'></script>
+		<script src='bitwisegames.conversationhandler.js'></script>
+		<script src='bitwisegames.conversation.js'></script>
+		<script src='bitwisegames.data.js'></script>
+		<script src='bitwisegames.dialog.js'></script>
+		<script src='bitwisegames.frameanimation.js'></script>
+		
+		<script src='bitwisegames.gametime.js'></script> 
+		
+		<script src='bitwisegames.trigger.js'></script>
+		
+		<!-- <script src='bitwisegames.trigger.js'></script> -->
+		<script src='bitwisegames.dialogtrigger.js'></script>
+
+		<script src='bitwisegames.layer.js'></script>
+		<script src="bitwisegames.keyboard.js"></script>
+		<script src='bitwisegames.engine.js'></script>
+		<script src='bitwisegames.map.js'></script>
+		<script src='bitwisegames.script.js'></script>
+		<script src='bitwisegames.npc.js'></script>
+		<script src='bitwisegames.tilegame.js'></script>
+
+		<script src="js/libs/stats.min.js"></script>
+      
+		<script>
+			
+		$(document).ready(function () {
+	  
+			$(function () {			
+
+				var viewportWidth = 640;
+				var viewportHieght = 480;
+				
+				var game, stats, engine;
+				
+				function animate() {
+			
+					engine.update();
+					engine.draw();
+			
+					// update stats
+					stats.update();
+
+					requestAnimationFrame(function() {
+						animate();
+					});
+				}
+		  
+			
+				function init() {
+				
+					var canvas = document.createElement('canvas');
+					canvas.width = viewportWidth;
+					canvas.height = viewportHieght;
+
+					engine = new bitwisegames.engine(canvas, 32, 32, 650, 480);
+					loader = new bitwisegames.gameloader(engine, 60);
+					
+					// load the game data
+					// TODO: Splash screen here
+					// TODO: handle error
+					loader.loadData('data.json', 'testmap', function() {
+					
+						stats = new Stats();
+						stats.domElement.style.position = 'absolute';
+						stats.domElement.style.top = '0px';
+
+						document.body.appendChild( stats.domElement );	  
+						document.body.appendChild(engine.canvas);
+						
+						animate();
+					});
+				}
+				
+				init();
+			});		
+		});	
+			
+		</script>
+		
+		
+	</body>
+</html>
